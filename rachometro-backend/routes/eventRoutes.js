@@ -40,7 +40,21 @@ router.post(
   },
   createEvent
 );
+// Adicionando a rota para o controle de despesas do evento
+router.get('/:eventId/manage-payments', protect, admin, async (req, res) => {
+  const { eventId } = req.params;
 
+  try {
+    const event = await Event.findById(eventId).populate('expenses.participants.userId');
+    if (!event) {
+      return res.status(404).json({ message: 'Evento não encontrado.' });
+    }
+
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao carregar as despesas do evento.' });
+  }
+});
 // Excluir um participante de um evento específico (SOMENTE ADMIN)
 router.delete(
   '/:eventId/participants/:participantId', // :participantId aqui é o userId

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório do Projeto: Rachômetro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4; 
+            color: #4B4B4B; 
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #005A9C; 
+            border-bottom-color: #005A9C;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            padding: 1rem 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <h1 class="text-xl font-bold text-gray-800">Projeto Rachômetro</h1>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#introducao" class="nav-link font-medium text-gray-600">Introdução</a>
+                    <a href="#tecnologias" class="nav-link font-medium text-gray-600">Tecnologias</a>
+                    <a href="#arquitetura" class="nav-link font-medium text-gray-600">Arquitetura</a>
+                    <a href="#desafios" class="nav-link font-medium text-gray-600">Desafios</a>
+                    <a href="#conclusao" class="nav-link font-medium text-gray-600">Conclusão</a>
+                </nav>
+                 <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100">
+                    <span class="text-2xl">&#9776;</span>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#introducao" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Introdução</a>
+            <a href="#tecnologias" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Tecnologias</a>
+            <a href="#arquitetura" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Arquitetura</a>
+            <a href="#desafios" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Desafios</a>
+            <a href="#conclusao" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Conclusão</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <section id="introducao" class="mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold tracking-tight text-gray-900">Relatório de Desenvolvimento</h2>
+                <p class="mt-4 text-lg text-gray-600">Uma análise interativa do projeto de gestão de despesas "Rachômetro".</p>
+            </div>
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Introdução</h3>
+                <div class="space-y-4 text-gray-700 leading-relaxed">
+                    <p>O presente documento detalha a concepção e estrutura do Mini Design System desenvolvido para o projeto "Rachômetro". O objetivo principal deste sistema de design é estabelecer um conjunto coeso e reutilizável de padrões visuais, componentes de interface e diretrizes de estilo, visando garantir consistência, eficiência no desenvolvimento e uma experiência de usuário unificada para a aplicação Rachômetro.</p>
+                    <p>O Rachômetro é um sistema de gestão de despesas focado em facilitar a divisão de custos em eventos sociais e atividades em grupo. Ele permite que usuários criem eventos, adicionem participantes, registrem despesas e visualizem de forma clara como os custos são distribuídos entre os envolvidos.</p>
+                    <p>Este Design System será aplicado primordialmente ao desenvolvimento da interface do aplicativo web "Rachômetro", que se caracteriza como um dashboard de gerenciamento financeiro colaborativo. O público-alvo imaginário para o Rachômetro são jovens adultos e grupos de amigos que frequentemente organizam eventos (como churrascos, viagens, jantares) e buscam uma forma simples e transparente de dividir as contas, evitando conflitos e facilitando o acerto financeiro entre os participantes. A interface busca ser intuitiva, moderna e amigável, refletindo a natureza social e prática da aplicação.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tecnologias" class="mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Stack de Tecnologias</h2>
+                <p class="mt-3 text-lg text-gray-600">Uma visão geral das ferramentas e bibliotecas que deram vida ao projeto.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Frontend</h4>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="mr-3 text-xl text-blue-500">&#9883;</span><div><strong class="font-semibold">React:</strong> Biblioteca para construir interfaces de usuário reativas e componentizadas.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-blue-500">&#10144;</span><div><strong class="font-semibold">React Router:</strong> Para navegação e criação de uma SPA (Single Page Application).</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-blue-500">&#127912;</span><div><strong class="font-semibold">Tailwind CSS:</strong> Framework CSS utility-first para um design customizado e responsivo.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-blue-500">&#128229;</span><div><strong class="font-semibold">Axios:</strong> Cliente HTTP para requisições à API backend.</div></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Backend</h4>
+                     <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="mr-3 text-xl text-green-500">&#128187;</span><div><strong class="font-semibold">Node.js:</strong> Ambiente de execução JavaScript no lado do servidor.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-green-500">&#128694;</span><div><strong class="font-semibold">Express.js:</strong> Framework para construção da API RESTful.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-green-500">&#128176;</span><div><strong class="font-semibold">MongoDB:</strong> Banco de dados NoSQL para flexibilidade no armazenamento.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-green-500">&#128211;</span><div><strong class="font-semibold">Mongoose:</strong> Biblioteca ODM para modelagem de dados e interação com o MongoDB.</div></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Autenticação & Segurança</h4>
+                     <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="mr-3 text-xl text-yellow-500">&#128273;</span><div><strong class="font-semibold">JWT:</strong> JSON Web Tokens para autenticação stateless segura.</div></li>
+                        <li class="flex items-start"><span class="mr-3 text-xl text-yellow-500">&#128274;</span><div><strong class="font-semibold">bcrypt.js:</strong> Para criptografia (hashing) de senhas antes de salvar no banco de dados.</div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="arquitetura" class="mb-24">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Arquitetura do Sistema</h2>
+                <p class="mt-3 text-lg text-gray-600">Uma representação visual do fluxo de dados entre o cliente, o servidor e o banco de dados.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                 <div class="flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0 md:space-x-8">
+                    <div class="text-center p-6 bg-blue-50 rounded-lg w-full md:w-1/4">
+                        <span class="text-5xl">🧑‍💻</span>
+                        <h4 class="font-bold text-lg mt-2 text-blue-800">Cliente (Frontend)</h4>
+                        <p class="text-sm text-blue-700">React & Tailwind CSS</p>
+                    </div>
+                    <div class="flex items-center text-3xl font-mono text-gray-400">&lt;-- API --&gt;</div>
+                    <div class="text-center p-6 bg-green-50 rounded-lg w-full md:w-1/4">
+                        <span class="text-5xl">⚙️</span>
+                        <h4 class="font-bold text-lg mt-2 text-green-800">Servidor (Backend)</h4>
+                        <p class="text-sm text-green-700">Node.js & Express</p>
+                    </div>
+                     <div class="flex items-center text-3xl font-mono text-gray-400">&lt;-- Mongoose --&gt;</div>
+                    <div class="text-center p-6 bg-yellow-50 rounded-lg w-full md:w-1/4">
+                        <span class="text-5xl">🗃️</span>
+                        <h4 class="font-bold text-lg mt-2 text-yellow-800">Banco de Dados</h4>
+                        <p class="text-sm text-yellow-700">MongoDB</p>
+                    </div>
+                </div>
+                 <p class="text-center mt-8 text-gray-600">O cliente (navegador) faz requisições para a API no servidor, que por sua vez processa a lógica de negócio e se comunica com o banco de dados para persistir e recuperar informações.</p>
+            </div>
+        </section>
+
+        <section id="desafios" class="mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Desafios e Soluções</h2>
+                <p class="mt-3 text-lg text-gray-600">Principais obstáculos encontrados durante o desenvolvimento e como foram superados.</p>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-gray-800">
+                        <span>1. Erros de CORS (Cross-Origin Resource Sharing)</span>
+                        <span class="accordion-icon text-xl text-gray-500 transition-transform duration-300 transform">&plus;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p class="text-gray-700"><strong>Problema:</strong> O frontend (rodando em `localhost:5173`) era bloqueado pelo navegador ao tentar fazer requisições para o backend (em `localhost:5000`) devido à política de mesma origem.</p>
+                        <p class="mt-2 text-gray-700"><strong>Solução:</strong> Implementamos o middleware `cors` no `server.js` do backend. Isso foi configurado para permitir explicitamente requisições da origem do frontend e habilitar métodos HTTP como `PUT`, `DELETE`, e `OPTIONS`, resolvendo o bloqueio e permitindo a comunicação entre as duas partes da aplicação.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-gray-800">
+                        <span>2. Gerenciamento da Atualização da Interface</span>
+                         <span class="accordion-icon text-xl text-gray-500 transition-transform duration-300 transform">&plus;</span>
+                    </button>
+                     <div class="accordion-content">
+                        <p class="text-gray-700"><strong>Problema:</strong> Garantir que a UI refletisse imediatamente as alterações feitas pelo usuário (ex: adicionar um participante e vê-lo aparecer na lista instantaneamente) sem precisar recarregar a página.</p>
+                        <p class="mt-2 text-gray-700"><strong>Solução:</strong> Após cada ação de escrita (`POST`, `PUT`, `DELETE`), o backend foi configurado para retornar o objeto completo e atualizado do evento. No frontend, a resposta da API foi utilizada para atualizar o estado do componente com `setSelectedEvent(response.data)`, o que força o React a re-renderizar a interface com os dados mais recentes.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-gray-800">
+                        <span>3. Depuração de IDs de Subdocumentos</span>
+                         <span class="accordion-icon text-xl text-gray-500 transition-transform duration-300 transform">&plus;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p class="text-gray-700"><strong>Problema:</strong> A exclusão de participantes falhava porque o ID do subdocumento do participante (`participant._id`) não estava sendo passado corretamente do JSX para a função de handler no frontend.</p>
+                        <p class="mt-2 text-gray-700"><strong>Solução:</strong> Usamos `console.log` para inspecionar o objeto `participant` no momento do clique, o que revelou que o `_id` do subdocumento não estava presente como esperado, mas o `userId` (referência ao usuário) estava. Ajustamos a lógica no frontend para passar o `userId` e a lógica no backend para encontrar e remover o participante com base nesse `userId`, resolvendo o problema.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <section id="conclusao" class="mb-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Conclusão</h2>
+                <p class="mt-3 text-lg text-gray-600">Aprendizados e próximos passos para a evolução do Rachômetro.</p>
+            </div>
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div class="bg-white p-8 rounded-xl shadow-lg">
+                     <h3 class="text-2xl font-semibold text-gray-800 mb-4">Principais Aprendizados</h3>
+                     <p class="text-gray-700 leading-relaxed">O desenvolvimento do "Rachômetro" proporcionou uma experiência prática valiosa na construção de uma aplicação full-stack completa. Os principais aprendizados incluem a integração entre um frontend React e um backend Node.js/Express, a implementação de um fluxo de autenticação seguro com JWT, o gerenciamento de estado complexo em uma página interativa, e a depuração de problemas comuns de comunicação entre cliente e servidor, como erros de CORS.</p>
+                 </div>
+                 <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Melhorias Futuras</h3>
+                    <ul class="space-y-3 text-gray-700 list-disc list-inside">
+                        <li>Implementar a lógica de cálculo "quem deve para quem".</li>
+                        <li>Criar uma página de detalhes do evento dedicada para o usuário comum.</li>
+                        <li>Permitir divisão de despesas flexível (não apenas igualitária).</li>
+                        <li>Adicionar um sistema de notificações para pagamentos pendentes.</li>
+                    </ul>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('main section');
+
+            const makeLinksActive = () => {
+                let index = sections.length;
+                while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
+                
+                navLinks.forEach((link) => link.classList.remove('active'));
+                if (navLinks[index]) {
+                    navLinks[index].classList.add('active');
+                }
+            };
+            
+            makeLinksActive();
+            window.addEventListener('scroll', makeLinksActive);
+
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.accordion-icon');
+                    
+                    if (content.classList.contains('open')) {
+                        content.classList.remove('open');
+                        icon.classList.remove('rotate-45');
+                    } else {
+                        accordionHeaders.forEach(otherHeader => {
+                            otherHeader.nextElementSibling.classList.remove('open');
+                            otherHeader.querySelector('.accordion-icon').classList.remove('rotate-45');
+                        });
+                        content.classList.add('open');
+                        icon.classList.add('rotate-45');
+                    }
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const mobileNavLinks = document.querySelectorAll('#mobile-menu a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

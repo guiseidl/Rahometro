@@ -225,71 +225,85 @@ const ManageEventsPage = () => {
     }
   };
 
- const handleDeleteExpenseFromEvent = async (eventId, expenseId) => {
-  // Log para confirmar que a função foi chamada com os IDs corretos
-  console.log(`FRONTEND: Tentando excluir despesa: eventId=${eventId}, expenseId=${expenseId}`);
-
-  if (!eventId || !expenseId) {
-    setExpenseFormError("IDs de evento ou despesa ausentes."); // Usando o estado de erro do formulário de despesa
-    return;
-  }
-
-  if (!window.confirm('Tem certeza que deseja excluir esta despesa? Esta ação não pode ser desfeita.')) {
-    return;
-  }
-
-  setLoading(true);
-  setExpenseFormError("");    // Limpa mensagens de erro do formulário de despesa
-  setExpenseFormSuccess("");  // Limpa mensagens de sucesso do formulário de despesa
-  // Pode limpar mensagens globais também, se desejar
-  setErrorMessage(""); 
-  setSuccessMessage("");
-
-  const token = getToken();
-  if (!token) {
-    setExpenseFormError("Autenticação necessária.");
-    navigate("/login");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    const response = await axios.delete(
-      `http://localhost:5000/api/events/${eventId}/expenses/${expenseId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+  const handleDeleteExpenseFromEvent = async (eventId, expenseId) => {
+    // Log para confirmar que a função foi chamada com os IDs corretos
+    console.log(
+      `FRONTEND: Tentando excluir despesa: eventId=${eventId}, expenseId=${expenseId}`
     );
 
-    setExpenseFormSuccess("Despesa removida com sucesso!");
-    setSelectedEvent(response.data); // Atualiza o selectedEvent com os dados do evento retornados (sem a despesa)
-
-    // Auto-limpar mensagem de sucesso após alguns segundos
-    setTimeout(() => {
-      setExpenseFormSuccess("");
-    }, 3000);
-
-  } catch (error) {
-    console.error("FRONTEND: Erro ao remover despesa do evento:", error);
-    if (error.response) {
-      if (error.response.status === 401) {
-        setErrorMessage("Sessão expirada ou não autorizado. Faça login novamente."); // Erro global
-        localStorage.removeItem("token"); localStorage.removeItem("userRole");
-        navigate("/login");
-      } else if (error.response.status === 403) {
-        setExpenseFormError("Acesso negado. Apenas administradores podem remover despesas.");
-      } else if (error.response.status === 404) {
-        setExpenseFormError(error.response.data.message || "Evento ou despesa não encontrada.");
-      } else {
-        setExpenseFormError(error.response.data.message || "Erro ao remover despesa.");
-      }
-    } else {
-      setExpenseFormError("Erro de rede ou servidor.");
+    if (!eventId || !expenseId) {
+      setExpenseFormError("IDs de evento ou despesa ausentes."); // Usando o estado de erro do formulário de despesa
+      return;
     }
-  } finally {
-    setLoading(false);
-  }
-};
+
+    if (
+      !window.confirm(
+        "Tem certeza que deseja excluir esta despesa? Esta ação não pode ser desfeita."
+      )
+    ) {
+      return;
+    }
+
+    setLoading(true);
+    setExpenseFormError(""); // Limpa mensagens de erro do formulário de despesa
+    setExpenseFormSuccess(""); // Limpa mensagens de sucesso do formulário de despesa
+    // Pode limpar mensagens globais também, se desejar
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const token = getToken();
+    if (!token) {
+      setExpenseFormError("Autenticação necessária.");
+      navigate("/login");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/events/${eventId}/expenses/${expenseId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setExpenseFormSuccess("Despesa removida com sucesso!");
+      setSelectedEvent(response.data); // Atualiza o selectedEvent com os dados do evento retornados (sem a despesa)
+
+      // Auto-limpar mensagem de sucesso após alguns segundos
+      setTimeout(() => {
+        setExpenseFormSuccess("");
+      }, 3000);
+    } catch (error) {
+      console.error("FRONTEND: Erro ao remover despesa do evento:", error);
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage(
+            "Sessão expirada ou não autorizado. Faça login novamente."
+          ); // Erro global
+          localStorage.removeItem("token");
+          localStorage.removeItem("userRole");
+          navigate("/login");
+        } else if (error.response.status === 403) {
+          setExpenseFormError(
+            "Acesso negado. Apenas administradores podem remover despesas."
+          );
+        } else if (error.response.status === 404) {
+          setExpenseFormError(
+            error.response.data.message || "Evento ou despesa não encontrada."
+          );
+        } else {
+          setExpenseFormError(
+            error.response.data.message || "Erro ao remover despesa."
+          );
+        }
+      } else {
+        setExpenseFormError("Erro de rede ou servidor.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleUpdateEvent = async (e) => {
     // ... (sua função handleUpdateEvent como antes, está correta) ...
     e.preventDefault();
@@ -465,84 +479,87 @@ const ManageEventsPage = () => {
   // ... (outros imports, states, e funções)
 
   // Em ManageEventsPage.jsx
-const handleDeleteParticipantFromEvent = async (
-  eventId,
-  participantUserId // <<< Parâmetro agora representa o userId
-) => {
-  console.log('FUNÇÃO handleDeleteParticipantFromEvent CHAMADA!');
-  console.log('eventId:', eventId, 'participantUserId:', participantUserId); // Log com o nome correto do parâmetro
+  const handleDeleteParticipantFromEvent = async (
+    eventId,
+    participantUserId // <<< Parâmetro agora representa o userId
+  ) => {
+    console.log("FUNÇÃO handleDeleteParticipantFromEvent CHAMADA!");
+    console.log("eventId:", eventId, "participantUserId:", participantUserId); // Log com o nome correto do parâmetro
 
-  if (!eventId || !participantUserId) { // <<< Verificando participantUserId
-    setParticipantFormError("IDs de evento ou ID de usuário do participante ausentes.");
-    return;
-  }
-
-  if (!window.confirm(`Tem certeza que deseja remover este participante?`)) {
-    return;
-  }
-
-  setLoading(true);
-  setParticipantFormError("");
-  setParticipantFormSuccess("");
-  setErrorMessage("");
-  setSuccessMessage("");
-
-  const token = getToken();
-  if (!token) {
-    setParticipantFormError("Autenticação necessária.");
-    navigate("/login");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    // A URL agora usará participantUserId, que corresponde ao :participantId na rota do backend
-    // se o backend foi ajustado para tratar :participantId como userId.
-    const response = await axios.delete(
-      `http://localhost:5000/api/events/${eventId}/participants/${participantUserId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    setParticipantFormSuccess("Participante removido com sucesso!");
-    setSelectedEvent(response.data); // Atualiza o selectedEvent com os dados do evento retornados
-
-    setTimeout(() => {
-      setParticipantFormSuccess("");
-    }, 3000);
-  } catch (error) {
-    console.error("FRONTEND: Erro ao remover participante do evento:", error);
-    if (error.response) {
-      if (error.response.status === 401) {
-        setErrorMessage(
-          "Sessão expirada ou não autorizado. Por favor, faça login novamente."
-        );
-        localStorage.removeItem("token");
-        localStorage.removeItem("userRole");
-        navigate("/login");
-      } else if (error.response.status === 403) {
-        setParticipantFormError(
-          "Acesso negado. Apenas administradores podem remover participantes."
-        );
-      } else if (error.response.status === 404) {
-        setParticipantFormError(
-          error.response.data.message ||
-            "Evento ou participante não encontrado."
-        );
-      } else {
-        setParticipantFormError(
-          error.response.data.message || "Erro ao remover participante."
-        );
-      }
-    } else {
-      setParticipantFormError("Erro de rede ou servidor.");
+    if (!eventId || !participantUserId) {
+      // <<< Verificando participantUserId
+      setParticipantFormError(
+        "IDs de evento ou ID de usuário do participante ausentes."
+      );
+      return;
     }
-  } finally {
-    setLoading(false);
-  }
-};
-  
+
+    if (!window.confirm(`Tem certeza que deseja remover este participante?`)) {
+      return;
+    }
+
+    setLoading(true);
+    setParticipantFormError("");
+    setParticipantFormSuccess("");
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const token = getToken();
+    if (!token) {
+      setParticipantFormError("Autenticação necessária.");
+      navigate("/login");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // A URL agora usará participantUserId, que corresponde ao :participantId na rota do backend
+      // se o backend foi ajustado para tratar :participantId como userId.
+      const response = await axios.delete(
+        `http://localhost:5000/api/events/${eventId}/participants/${participantUserId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setParticipantFormSuccess("Participante removido com sucesso!");
+      setSelectedEvent(response.data); // Atualiza o selectedEvent com os dados do evento retornados
+
+      setTimeout(() => {
+        setParticipantFormSuccess("");
+      }, 3000);
+    } catch (error) {
+      console.error("FRONTEND: Erro ao remover participante do evento:", error);
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage(
+            "Sessão expirada ou não autorizado. Por favor, faça login novamente."
+          );
+          localStorage.removeItem("token");
+          localStorage.removeItem("userRole");
+          navigate("/login");
+        } else if (error.response.status === 403) {
+          setParticipantFormError(
+            "Acesso negado. Apenas administradores podem remover participantes."
+          );
+        } else if (error.response.status === 404) {
+          setParticipantFormError(
+            error.response.data.message ||
+              "Evento ou participante não encontrado."
+          );
+        } else {
+          setParticipantFormError(
+            error.response.data.message || "Erro ao remover participante."
+          );
+        }
+      } else {
+        setParticipantFormError("Erro de rede ou servidor.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddExpense = async (e) => {
     e.preventDefault();
 
@@ -767,6 +784,7 @@ const handleDeleteParticipantFromEvent = async (
                 >
                   Novo Nome do Evento
                 </label>
+
                 <input
                   id="editEventName"
                   type="text"
@@ -866,6 +884,7 @@ const handleDeleteParticipantFromEvent = async (
                       Criado por: {event.createdBy.name}
                     </p>
                   </div>
+
                   <div className="flex space-x-2">
                     <button
                       onClick={(e) => {
@@ -1041,8 +1060,14 @@ const handleDeleteParticipantFromEvent = async (
                                   participant
                                 );
                                 // AGORA PASSANDO participant.userId
-                                handleDeleteParticipantFromEvent(selectedEvent._id, participant.userId); 
-                                 console.log('Objeto participant NO ONCLICK do botão excluir:', participant);
+                                handleDeleteParticipantFromEvent(
+                                  selectedEvent._id,
+                                  participant.userId
+                                );
+                                console.log(
+                                  "Objeto participant NO ONCLICK do botão excluir:",
+                                  participant
+                                );
                               }}
                               //className="bg-red-600 hover:bg-red-700 text-white font-bold p-1 rounded-full flex items-center justify-center"
                               title="Excluir Participante"
@@ -1081,6 +1106,7 @@ const handleDeleteParticipantFromEvent = async (
                 <h3 className="text-white text-2xl font-semibold mb-3">
                   Despesas
                 </h3>
+              
                 <button
                   onClick={() => {
                     console.log("Botão Adicionar Despesa CLICADO"); // Novo Log
@@ -1159,82 +1185,83 @@ const handleDeleteParticipantFromEvent = async (
                   </form>
                 )}
 
-             
-
-{/* LISTA DE DESPESAS COM GRID E BOTÃO EXCLUIR */}
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-  {selectedEvent &&
-  selectedEvent.expenses &&
-  selectedEvent.expenses.length > 0
-    ? selectedEvent.expenses.map((expense) => (
-        <div
-          key={expense._id} // _id do subdocumento despesa
-          className="bg-[#121212] p-3 rounded-lg shadow"
-        >
-          <div className="flex justify-between items-start">
-            <div className="flex-grow mr-2">
-              <h4 className="text-white font-medium truncate">
-                {expense.description}
-              </h4>
-              <p className="text-[#BBBBBB] text-sm">
-                Valor Total: R$ {parseFloat(expense.amount).toFixed(2)}
-              </p>
-              {selectedEvent.participants &&
-                selectedEvent.participants.length > 0 && (
-                  <p className="text-[#BBBBBB] text-xs italic">
-                    (R$ {(
-                      parseFloat(expense.amount) /
-                      selectedEvent.participants.length
-                    ).toFixed(2)}{" "}
-                    por pessoa)
-                  </p>
-                )}
-            </div>
-            {/* BOTÃO DE EXCLUIR DESPESA CORRIGIDO */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation(); // Previne outros cliques se houver
-                handleDeleteExpenseFromEvent(selectedEvent._id, expense._id);
-              }}
-              //className="bg-red-600 hover:bg-red-700 text-white font-bold p-1 rounded-full flex items-center justify-center flex-shrink-0"
-              title="Excluir Despesa"
-              style={{ width: '24px', height: '24px' }}
-            >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 20 20" 
-                fill="white" // Mantido fill="white" como você preferiu
-                className="w-4 h-4" 
-              >
-                <path 
-                  fillRule="evenodd"
-                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" 
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-            {/* FIM DO BOTÃO DE EXCLUIR DESPESA */}
-          </div>
-        </div>
-      ))
-    : null}
-</div>
-{/* Mensagem para quando não há despesas */}
-{selectedEvent &&
-  selectedEvent.expenses &&
-  selectedEvent.expenses.length === 0 &&
-  !showAddExpense && ( 
-    <p className="text-[#BBBBBB] mt-2">Nenhuma despesa ainda.</p>
-  )}
+                {/* LISTA DE DESPESAS COM GRID E BOTÃO EXCLUIR */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {selectedEvent &&
+                  selectedEvent.expenses &&
+                  selectedEvent.expenses.length > 0
+                    ? selectedEvent.expenses.map((expense) => (
+                        <div
+                          key={expense._id} // _id do subdocumento despesa
+                          className="bg-[#121212] p-3 rounded-lg shadow"
+                        >
+                          <div className="flex justify-between items-start">
+                            <div className="flex-grow mr-2">
+                              <h4 className="text-white font-medium truncate">
+                                {expense.description}
+                              </h4>
+                              <p className="text-[#BBBBBB] text-sm">
+                                Valor Total: R${" "}
+                                {parseFloat(expense.amount).toFixed(2)}
+                              </p>
+                              {selectedEvent.participants &&
+                                selectedEvent.participants.length > 0 && (
+                                  <p className="text-[#BBBBBB] text-xs italic">
+                                    (R${" "}
+                                    {(
+                                      parseFloat(expense.amount) /
+                                      selectedEvent.participants.length
+                                    ).toFixed(2)}{" "}
+                                    por pessoa)
+                                  </p>
+                                )}
+                            </div>
+                            {/* BOTÃO DE EXCLUIR DESPESA CORRIGIDO */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation(); // Previne outros cliques se houver
+                                handleDeleteExpenseFromEvent(
+                                  selectedEvent._id,
+                                  expense._id
+                                );
+                              }}
+                              //className="bg-red-600 hover:bg-red-700 text-white font-bold p-1 rounded-full flex items-center justify-center flex-shrink-0"
+                              title="Excluir Despesa"
+                              style={{ width: "24px", height: "24px" }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="white" // Mantido fill="white" como você preferiu
+                                className="w-4 h-4"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                            {/* FIM DO BOTÃO DE EXCLUIR DESPESA */}
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                </div>
                 {/* Mensagem para quando não há despesas */}
                 {selectedEvent &&
                   selectedEvent.expenses &&
                   selectedEvent.expenses.length === 0 &&
                   !showAddExpense && (
                     <p className="text-[#BBBBBB] mt-2">
-                     
+                      Nenhuma despesa ainda.
                     </p>
                   )}
+                {/* Mensagem para quando não há despesas */}
+                {selectedEvent &&
+                  selectedEvent.expenses &&
+                  selectedEvent.expenses.length === 0 &&
+                  !showAddExpense && <p className="text-[#BBBBBB] mt-2"></p>}
               </div>
             </div>
           ) : (
